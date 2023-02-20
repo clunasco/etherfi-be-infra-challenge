@@ -16,6 +16,11 @@ services:
     env_file:
       - ./.env  
   geth:
+    build:
+      dockerfile: Dockerfile.geth
+      args:        
+        A_INFLUXDB_DB: ${INFLUXDB_DB}
+        A_INFLUXDB_USER: ${INFLUXDB_USER}        
     image: ethereum/client-go:alltools-stable
     ports:
       - 30303:30303
