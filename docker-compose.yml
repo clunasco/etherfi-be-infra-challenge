@@ -1,12 +1,20 @@
 services:
   influxdb:
-    image: influxdb:1.8
+    build:
+      dockerfile: Dockerfile.influxdb
+      args:
+        A_INFLUXDB_HTTP_AUTH_ENABLED: ${INFLUXDB_HTTP_AUTH_ENABLED}
+        A_INFLUXDB_DB: ${INFLUXDB_DB}
+        A_INFLUXDB_USER: ${INFLUXDB_USER}
+        A_INFLUXDB_USER_PASSWORD: ${INFLUXDB_USER_PASSWORD}
+        A_INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER}
+        A_INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
     ports:
       - "8086:8086"
     volumes:
       - ./myInfluxVolume:/var/lib/influxdb2
     env_file:
-      - ./.env
+      - ./.env  
   geth:
     image: ethereum/client-go:alltools-stable
     ports:
