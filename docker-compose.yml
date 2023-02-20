@@ -17,3 +17,7 @@ services:
     env_file:
       - ./.env
     command: geth --metrics --metrics.influxdb --metrics.influxdb.endpoint "http://influxdb:8086" --metrics.influxdb.username '${INFLUXDB_USER}' --metrics.influxdb.password '${INFLUXDB_USER_PASSWORD}' --http.addr 0.0.0.0 --http --http.api eth,net,engine,admin --authrpc.addr geth --authrpc.port 8551 --authrpc.vhosts localhost,host.docker.internal --authrpc.jwtsecret /tmp/jwt.hex
+  grafana:
+    image: grafana/grafana-oss:latest
+    ports:
+      - 3000:3000
