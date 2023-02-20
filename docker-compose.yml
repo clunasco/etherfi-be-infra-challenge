@@ -30,13 +30,13 @@ services:
       - ./.env
     command: geth --metrics --metrics.influxdb --metrics.influxdb.endpoint "http://influxdb:8086" --metrics.influxdb.username '${INFLUXDB_USER}' --metrics.influxdb.password '${INFLUXDB_USER_PASSWORD}' --http.addr 0.0.0.0 --http --http.api eth,net,engine,admin --authrpc.addr geth --authrpc.port 8551 --authrpc.vhosts localhost,host.docker.internal --authrpc.jwtsecret /tmp/jwt.hex
   grafana:
-    build:
-      dockerfile: Dockerfile.grafana
+    image: grafana/grafana-oss:latest
+    depends_on:
+      - influxdb
     ports:
       - 3000:3000
   beacon-node:
-    build:
-      dockerfile: Dockerfile.prysm    
+    image: gcr.io/prysmaticlabs/prysm/beacon-chain:stable 
     depends_on:
       - geth
     command: --accept-terms-of-use --datadir=/data --jwt-secret=/tmp/jwt.hex --rpc-host=0.0.0.0 --grpc-gateway-host=0.0.0.0 --monitoring-host=0.0.0.0 --execution-endpoint=http://geth:8551
