@@ -1,0 +1,9 @@
+services:
+  influxdb:
+    image: influxdb:1.8
+    ports:
+      - "8086:8086"
+    volumes:
+      - ./myInfluxVolume:/var/lib/influxdb2
+    env_file:
+      - ./.env
