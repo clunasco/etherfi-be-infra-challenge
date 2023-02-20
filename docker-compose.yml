@@ -21,3 +21,15 @@ services:
     image: grafana/grafana-oss:latest
     ports:
       - 3000:3000
+  beacon-node:
+    image: gcr.io/prysmaticlabs/prysm/beacon-chain:stable
+    depends_on:
+      - geth
+    command: --accept-terms-of-use --datadir=/data --jwt-secret=/tmp/jwt.hex --rpc-host=0.0.0.0 --grpc-gateway-host=0.0.0.0 --monitoring-host=0.0.0.0 --execution-endpoint=http://geth:8551
+    ports:
+      - 4000:4000
+      - 13000:13000
+      - 12000:12000/udp
+    volumes:
+      - ./jwt:/tmp/
+      - ./data:/data/
